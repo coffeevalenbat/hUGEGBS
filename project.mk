@@ -34,8 +34,8 @@ MBC := 0x00
 SRAMSIZE := 0x00
 
 # ROM name
-ROMNAME := hUGEGBS
-ROMEXT  := gbs
+ROMNAME := tmp
+ROMEXT  := bin
 
 
 # Compilation parameters, uncomment to apply, comment to cancel

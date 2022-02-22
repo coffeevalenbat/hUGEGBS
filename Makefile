@@ -81,12 +81,15 @@ rebuild:
 # How to build a ROM
 $(BINDIR)/%.$(ROMEXT) $(BINDIR)/%.sym $(BINDIR)/%.map: $(patsubst src/%.asm,$(OBJDIR)/%.o,$(SRCS))
 	@$(MKDIR_P) $(@D)
-	$(RGBLINK) $(LDFLAGS) -m $(BINDIR)/$*.map -n $(BINDIR)/$*.sym -o $(BINDIR)/$*.$(ROMEXT) $^ \
+	$(RGBLINK) $(LDFLAGS) -o $(BINDIR)/$*.$(ROMEXT) $^ \
 	&& $(RGBFIX) -v $(BINDIR)/$*.$(ROMEXT)
-	python3 rempad.py
+	$(RGBASM) -o $(BINDIR)/nopad.o incbin/nopad.asm
+	$(RGBLINK) -x -o $(BINDIR)/hUGEGBS.gbs $(BINDIR)/nopad.o
 	$(RM_RF) $(OBJDIR)
 	$(RM_RF) $(DEPDIR)
 	$(RM_RF) res
+	$(RM_RF) $(BINDIR)/$*.$(ROMEXT)
+
 
 # `.mk` files are auto-generated dependency lists of the "root" ASM files, to save a lot of hassle.
 # Also add all obj dependencies to the dep file too, so Make knows to remake it
